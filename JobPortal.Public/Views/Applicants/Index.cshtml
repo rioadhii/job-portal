@@ -1,0 +1,62 @@
+@model IEnumerable<JobPortal.Public.Models.ViewModels.ApplicantViewModel>
+
+@{
+    ViewData["Title"] = "Applicant List";
+}
+
+<div class="card">
+    <div class="card-header">
+        <div class="d-flex justify-content-between align-items-center">
+            <h4>Applicant List</h4>
+            <a asp-action="Create" class="btn btn-sm btn-primary">Create</a>
+        </div>
+    </div>
+    <div class="card-body">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th style="width: 30%;">
+                    Full Name
+                </th>
+                <th style="width: 30%;">
+                    Email
+                </th>
+                <th style="width: 25%;">
+                    Position
+                </th>
+                <th style="width: 15%"></th>
+            </tr>
+            </thead>
+            <tbody>
+            @if (Model != null && Model.Any())
+            {
+                @foreach (var applicant in Model)
+                {
+                    <tr>
+                        <td>
+                            @($"{applicant.FirstName} {applicant.LastName}")
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => applicant.Email)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => applicant.JobPositionName)
+                        </td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@applicant.ApplicantId" class="btn btn-sm btn-warning">Edit</a> |
+                            <a asp-action="Delete" asp-route-id="@applicant.ApplicantId" class="btn btn-sm btn-danger">Delete</a>
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="4" class="text-center">No data available</td>
+                </tr>
+            }
+
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -19,7 +19,7 @@ public class EducationDetail
     [Required]
     public DateTime StartDate { get; set; }
     
-    public DateTime EndDate { get; set; }
+    public DateTime? EndDate { get; set; }
 
     public int ApplicantId { get; set; }
     public Applicant Applicant { get; set; }
