@@ -20,9 +20,9 @@ public class ExperienceDetail
     [Required]
     public DateTime StartDate { get; set; }
     
-    public DateTime EndDate { get; set; }
+    public DateTime? EndDate { get; set; }
     
-    public string Responsibilities { get; set; }
+    public string? Responsibilities { get; set; }
 
     public int ApplicantId { get; set; }
     public Applicant Applicant { get; set; }

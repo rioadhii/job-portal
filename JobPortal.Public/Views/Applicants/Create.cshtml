@@ -1,85 +1,133 @@
 @model JobPortal.Public.Models.ViewModels.ApplicantViewModel
 
 @{
-    ViewData["Title"] = "Create Applicant";
+    ViewData["Title"] = "Register Applicant";
 }
 
-<h2>Create Applicant</h2>
-
-<form asp-action="Create" method="post">
-    @* Applicant Information *@
-    <div class="form-group">
-        <label asp-for="FirstName" class="control-label"></label>
-        <input asp-for="FirstName" class="form-control" />
-        <span asp-validation-for="FirstName" class="text-danger"></span>
+<div class="card">
+    <div class="card-header">
+        <div class="d-flex justify-content-between align-items-center">
+            <h4>@ViewData["Title"]</h4>
+        </div>
     </div>
-    <div class="form-group">
-        <label asp-for="LastName" class="control-label"></label>
-        <input asp-for="LastName" class="form-control" />
-        <span asp-validation-for="LastName" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="Email" class="control-label"></label>
-        <input asp-for="Email" class="form-control" />
-        <span asp-validation-for="Email" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="DateOfBirth" class="control-label"></label>
-        <input asp-for="DateOfBirth" class="form-control" type="date" />
-        <span asp-validation-for="DateOfBirth" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="PhoneNumber" class="control-label"></label>
-        <input asp-for="PhoneNumber" class="form-control" />
-        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="JobPositionId" class="control-label"></label>
-        <select asp-for="JobPositionId" class="form-control" asp-items="ViewBag.JobPositionId"></select>
-        <span asp-validation-for="JobPositionId" class="text-danger"></span>
-    </div>
+    <form asp-action="Create" method="post">
+        <div class="card-body">
+            @* Applicant Information *@
+            <h5>Personal Information</h5>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label asp-for="FirstName" class="control-label"></label>
+                        <input asp-for="FirstName" class="form-control"/>
+                        <span asp-validation-for="FirstName" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label asp-for="LastName" class="control-label"></label>
+                        <input asp-for="LastName" class="form-control"/>
+                        <span asp-validation-for="LastName" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label asp-for="DateOfBirth" class="control-label"></label>
+                        <input asp-for="DateOfBirth" class="form-control" type="date"/>
+                        <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
 
-    <hr />
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label asp-for="Email" class="control-label"></label>
+                        <input asp-for="Email" class="form-control"/>
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label asp-for="PhoneNumber" class="control-label"></label>
+                        <input asp-for="PhoneNumber" class="form-control"/>
+                        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label asp-for="JobPositionId" class="control-label"></label>
+                        <select asp-for="JobPositionId" class="form-control" asp-items="ViewBag.JobPositionId">
+                            <option value="" disabled selected hidden>Select a position</option>
+                        </select>
+                        <span asp-validation-for="JobPositionId" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-    @* Education Details *@
-    <h4>Education Details</h4>
-    <table class="table" id="education-table">
-        <thead>
-            <tr>
-                <th>School Name</th>
-                <th>Degree</th>
-                <th>Start Date</th>
-                <th>End Date</th>
-                <th><button type="button" id="add-education" class="btn btn-success">Add</button></th>
-            </tr>
-        </thead>
-        <tbody>
-            <!-- Education details will be added here dynamically -->
-        </tbody>
-    </table>
+        <div class="card-body">
+            @* Education Details *@
+            <div class="d-flex justify-content-between align-items-center">
+                <h4>Education Details</h4>
+                <button type="button" id="add-education" class="btn btn-sm btn-success">Add</button>
+            </div>
+            <div class="card">
+                <table class="table mb-0" id="education-table">
+                    <thead>
+                    <tr>
+                        <th>School Name</th>
+                        <th>Degree</th>
+                        <th>Start Date</th>
+                        <th>End Date</th>
+                        <th>
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <!-- Education details will be added here dynamically -->
+                    <tr id="educationNoDataRow">
+                        <td colspan="5" class="text-center">No data added yet</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
 
-    <hr />
+        <div class="card-body">
+            @* Experience Details *@
+            <div class="d-flex justify-content-between align-items-center">
+                <h4>Experience Details</h4>
+                <button type="button" id="add-experience" class="btn btn-sm btn-success">Add</button>
+            </div>
+            <div class="card">
+                <table class="table mb-0" id="experience-table">
+                    <thead>
+                    <tr>
+                        <th>Company Name</th>
+                        <th>Position</th>
+                        <th>Start Date</th>
+                        <th>End Date</th>
+                        <th>Responsibilities</th>
+                        <th>
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <!-- Experience details will be added here dynamically -->
+                    <tr id="experienceNoDataRow">
+                        <td colspan="6" class="text-center">No data added yet</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
 
-    @* Experience Details *@
-    <h4>Experience Details</h4>
-    <table class="table" id="experience-table">
-        <thead>
-            <tr>
-                <th>Company Name</th>
-                <th>Position</th>
-                <th>Start Date</th>
-                <th>End Date</th>
-                <th>Responsibilities</th>
-                <th><button type="button" id="add-experience" class="btn btn-success">Add</button></th>
-            </tr>
-        </thead>
-        <tbody>
-            <!-- Experience details will be added here dynamically -->
-        </tbody>
-    </table>
-
-    <button type="submit" class="btn btn-primary">Submit</button>
-</form>
+        <div class="card-footer d-flex justify-content-end align-items-center gap-2">
+            <button type="submit" id="submitForm" class="btn btn-sm btn-primary">Submit</button>
+            <a href="@Url.Action("Index", "Applicants")" class="btn btn-sm btn-secondary">Back</a>
+        </div>
+    </form>
+</div>
 
 @section Scripts {
     @* Include jQuery if not already included *@
@@ -92,6 +140,12 @@
 
             // Add Education Detail
             $('#add-education').click(function () {
+                if (!validateEducationDetails()) {
+                    return;
+                }
+                  
+                $('#educationNoDataRow').remove();
+                  
                 var row = `
                     <tr>
                         <td>
@@ -107,7 +161,7 @@
                             <input type="date" name="EducationDetails[` + educationIndex + `].EndDate" class="form-control" />
                         </td>
                         <td>
-                            <button type="button" class="btn btn-danger remove-education">Remove</button>
+                            <button type="button" class="btn btn-sm btn-danger remove-education">Remove</button>
                         </td>
                     </tr>
                 `;
@@ -115,9 +169,19 @@
                 educationIndex++;
             });
 
-            // Remove Education Detail
+            // Remove row from the education details table
             $(document).on('click', '.remove-education', function () {
                 $(this).closest('tr').remove();
+            
+                // If no rows remain, add the "No data" row back
+                if ($('#education-table tbody tr').length === 0) {
+                    $('#education-table tbody').append(`
+                        <tr id="educationNoDataRow">
+                            <td colspan="5" class="text-center">No data added yet</td>
+                        </tr>
+                    `);
+                }
+                
                 updateEducationIndices();
             });
             
@@ -131,9 +195,33 @@
                 });
                 educationIndex = $('#education-table tbody tr').length;
             }
+            
+            function validateEducationDetails() {
+                var isValid = true;
+            
+               $('#education-table tbody tr').not('#educationNoDataRow').each(function () {
+                    var school = $(this).find('input[name$=".SchoolName"]').val();
+                    var degree = $(this).find('input[name$=".Degree"]').val();
+                    var startDate = $(this).find('input[name$=".StartDate"]').val();
+            
+                    if (!school || !degree || !startDate) {
+                        isValid = false;
+                        alert("Please fill in School, Degree, and Start Date for each education entry.");
+                        return false; // Exit loop if validation fails
+                    }
+                });
+            
+                return isValid;
+            }
 
             // Add Experience Detail
             $('#add-experience').click(function () {
+                if (!validateExperienceDetails()) {
+                    return;
+                }
+                  
+                $('#experienceNoDataRow').remove();
+                 
                 var row = `
                     <tr>
                         <td>
@@ -152,7 +240,7 @@
                             <input type="text" name="ExperienceDetails[` + experienceIndex + `].Responsibilities" class="form-control" />
                         </td>
                         <td>
-                            <button type="button" class="btn btn-danger remove-experience">Remove</button>
+                            <button type="button" class="btn btn-sm btn-danger remove-experience">Remove</button>
                         </td>
                     </tr>
                 `;
@@ -163,6 +251,16 @@
             // Remove Experience Detail
             $(document).on('click', '.remove-experience', function () {
                 $(this).closest('tr').remove();
+                
+                // If no rows remain, add the "No data" row back
+                if ($('#experience-table tbody tr').length === 0) {
+                    $('#experience-table tbody').append(`
+                        <tr id="experienceNoDataRow">
+                            <td colspan="5" class="text-center">No data added yet</td>
+                        </tr>
+                    `);
+                }
+                                
                 updateExperienceIndices();
             });
             
@@ -176,6 +274,30 @@
                 });
                 experienceIndex = $('#experience-table tbody tr').length;
             }
+            
+            function validateExperienceDetails() {
+               var isValid = true;
+            
+               $('#experience-table tbody tr').not('#experienceNoDataRow').each(function () {
+                    var companyName = $(this).find('input[name$=".CompanyName"]').val();
+                    var position = $(this).find('input[name$=".Position"]').val();
+                    var startDate = $(this).find('input[name$=".StartDate"]').val();
+
+                    if (!companyName || !position || !startDate) {
+                        isValid = false;
+                        alert("Please fill in Company Name, Position, and Start Date for each experience entry.");
+                        return false; // Exit loop if validation fails
+                    }
+                });
+            
+                return isValid;
+            }
+            
+             $('#submitForm').on('click', function (e) {
+                 if (!validateEducationDetails() || !validateExperienceDetails()) {
+                     e.preventDefault(); // Prevent form submission if validation fails
+                 }
+             });
         });
     </script>
 }
