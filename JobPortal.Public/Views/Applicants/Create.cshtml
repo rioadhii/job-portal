@@ -1,0 +1,181 @@
+@model JobPortal.Public.Models.ViewModels.ApplicantViewModel
+
+@{
+    ViewData["Title"] = "Create Applicant";
+}
+
+<h2>Create Applicant</h2>
+
+<form asp-action="Create" method="post">
+    @* Applicant Information *@
+    <div class="form-group">
+        <label asp-for="FirstName" class="control-label"></label>
+        <input asp-for="FirstName" class="form-control" />
+        <span asp-validation-for="FirstName" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="LastName" class="control-label"></label>
+        <input asp-for="LastName" class="form-control" />
+        <span asp-validation-for="LastName" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Email" class="control-label"></label>
+        <input asp-for="Email" class="form-control" />
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="DateOfBirth" class="control-label"></label>
+        <input asp-for="DateOfBirth" class="form-control" type="date" />
+        <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="PhoneNumber" class="control-label"></label>
+        <input asp-for="PhoneNumber" class="form-control" />
+        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="JobPositionId" class="control-label"></label>
+        <select asp-for="JobPositionId" class="form-control" asp-items="ViewBag.JobPositionId"></select>
+        <span asp-validation-for="JobPositionId" class="text-danger"></span>
+    </div>
+
+    <hr />
+
+    @* Education Details *@
+    <h4>Education Details</h4>
+    <table class="table" id="education-table">
+        <thead>
+            <tr>
+                <th>School Name</th>
+                <th>Degree</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th><button type="button" id="add-education" class="btn btn-success">Add</button></th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Education details will be added here dynamically -->
+        </tbody>
+    </table>
+
+    <hr />
+
+    @* Experience Details *@
+    <h4>Experience Details</h4>
+    <table class="table" id="experience-table">
+        <thead>
+            <tr>
+                <th>Company Name</th>
+                <th>Position</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Responsibilities</th>
+                <th><button type="button" id="add-experience" class="btn btn-success">Add</button></th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Experience details will be added here dynamically -->
+        </tbody>
+    </table>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+@section Scripts {
+    @* Include jQuery if not already included *@
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            var educationIndex = 0;
+            var experienceIndex = 0;
+
+            // Add Education Detail
+            $('#add-education').click(function () {
+                var row = `
+                    <tr>
+                        <td>
+                            <input type="text" name="EducationDetails[` + educationIndex + `].SchoolName" class="form-control" />
+                        </td>
+                        <td>
+                            <input type="text" name="EducationDetails[` + educationIndex + `].Degree" class="form-control" />
+                        </td>
+                        <td>
+                            <input type="date" name="EducationDetails[` + educationIndex + `].StartDate" class="form-control" />
+                        </td>
+                        <td>
+                            <input type="date" name="EducationDetails[` + educationIndex + `].EndDate" class="form-control" />
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-danger remove-education">Remove</button>
+                        </td>
+                    </tr>
+                `;
+                $('#education-table tbody').append(row);
+                educationIndex++;
+            });
+
+            // Remove Education Detail
+            $(document).on('click', '.remove-education', function () {
+                $(this).closest('tr').remove();
+                updateEducationIndices();
+            });
+            
+            function updateEducationIndices() {
+                $('#education-table tbody tr').each(function (index, element) {
+                    $(element).find('input').each(function () {
+                        var name = $(this).attr('name');
+                        var newName = name.replace(/\[\d+\]/, '[' + index + ']');
+                        $(this).attr('name', newName);
+                    });
+                });
+                educationIndex = $('#education-table tbody tr').length;
+            }
+
+            // Add Experience Detail
+            $('#add-experience').click(function () {
+                var row = `
+                    <tr>
+                        <td>
+                            <input type="text" name="ExperienceDetails[` + experienceIndex + `].CompanyName" class="form-control" />
+                        </td>
+                        <td>
+                            <input type="text" name="ExperienceDetails[` + experienceIndex + `].Position" class="form-control" />
+                        </td>
+                        <td>
+                            <input type="date" name="ExperienceDetails[` + experienceIndex + `].StartDate" class="form-control" />
+                        </td>
+                        <td>
+                            <input type="date" name="ExperienceDetails[` + experienceIndex + `].EndDate" class="form-control" />
+                        </td>
+                        <td>
+                            <input type="text" name="ExperienceDetails[` + experienceIndex + `].Responsibilities" class="form-control" />
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-danger remove-experience">Remove</button>
+                        </td>
+                    </tr>
+                `;
+                $('#experience-table tbody').append(row);
+                experienceIndex++;
+            });
+
+            // Remove Experience Detail
+            $(document).on('click', '.remove-experience', function () {
+                $(this).closest('tr').remove();
+                updateExperienceIndices();
+            });
+            
+            function updateExperienceIndices() {
+                $('#experience-table tbody tr').each(function (index, element) {
+                    $(element).find('input').each(function () {
+                        var name = $(this).attr('name');
+                        var newName = name.replace(/\[\d+\]/, '[' + index + ']');
+                        $(this).attr('name', newName);
+                    });
+                });
+                experienceIndex = $('#experience-table tbody tr').length;
+            }
+        });
+    </script>
+}

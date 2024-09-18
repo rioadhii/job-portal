@@ -1,0 +1,184 @@
+@model JobPortal.Public.Models.ViewModels.ApplicantViewModel
+
+@{
+    ViewData["Title"] = "Edit Applicant";
+}
+
+<h2>Edit Applicant</h2>
+
+<form asp-action="Edit" method="post">
+    <div class="form-group">
+        <label asp-for="FirstName" class="control-label"></label>
+        <input asp-for="FirstName" class="form-control" />
+        <span asp-validation-for="FirstName" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="LastName" class="control-label"></label>
+        <input asp-for="LastName" class="form-control" />
+        <span asp-validation-for="LastName" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Email" class="control-label"></label>
+        <input asp-for="Email" class="form-control" />
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="DateOfBirth" class="control-label"></label>
+        <input asp-for="DateOfBirth" class="form-control" />
+        <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="PhoneNumber" class="control-label"></label>
+        <input asp-for="PhoneNumber" class="form-control" />
+        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="JobPositionId" class="control-label"></label>
+        <select asp-for="JobPositionId" class="form-control" asp-items="ViewBag.JobPositionId"></select>
+        <span asp-validation-for="JobPositionId" class="text-danger"></span>
+    </div>
+
+    <!-- Education Details -->
+    <h4>Education Details</h4>
+    <div id="educationDetailsContainer">
+        @for (int i = 0; i < Model.EducationDetails.Count; i++)
+        {
+            <div class="education-item" data-index="@i">
+                <div class="form-group">
+                    <label>School Name</label>
+                    <input name="EducationDetails[@i].SchoolName" value="@Model.EducationDetails[i].SchoolName" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label>Degree</label>
+                    <input name="EducationDetails[@i].Degree" value="@Model.EducationDetails[i].Degree" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label>Start Date</label>
+                    <input name="EducationDetails[@i].StartDate" value="@Model.EducationDetails[i].StartDate.ToString("yyyy-MM-dd")" type="date" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label>End Date</label>
+                    <input name="EducationDetails[@i].EndDate" value="@Model.EducationDetails[i].EndDate.ToString("yyyy-MM-dd")" type="date" class="form-control" />
+                </div>
+                <button type="button" class="btn btn-danger remove-education">Remove</button>
+            </div>
+        }
+    </div>
+    <button type="button" id="addEducation" class="btn btn-success">Add Education</button>
+
+    <!-- Experience Details -->
+    <h4>Experience Details</h4>
+    <div id="experienceDetailsContainer">
+        @for (int i = 0; i < Model.ExperienceDetails.Count; i++)
+        {
+            <div class="experience-item" data-index="@i">
+                <div class="form-group">
+                    <label>Company Name</label>
+                    <input name="ExperienceDetails[@i].CompanyName" value="@Model.ExperienceDetails[i].CompanyName" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label>Position</label>
+                    <input name="ExperienceDetails[@i].Position" value="@Model.ExperienceDetails[i].Position" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label>Start Date</label>
+                    <input name="ExperienceDetails[@i].StartDate" value="@Model.ExperienceDetails[i].StartDate.ToString("yyyy-MM-dd")" type="date" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label>End Date</label>
+                    <input name="ExperienceDetails[@i].EndDate" value="@Model.ExperienceDetails[i].EndDate.ToString("yyyy-MM-dd")" type="date" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label>Responsibilities</label>
+                    <textarea name="ExperienceDetails[@i].Responsibilities" class="form-control">@Model.ExperienceDetails[i].Responsibilities</textarea>
+                </div>
+                <button type="button" class="btn btn-danger remove-experience">Remove</button>
+            </div>
+        }
+    </div>
+    <button type="button" id="addExperience" class="btn btn-success">Add Experience</button>
+
+    <div class="form-group mt-3">
+        <input type="submit" value="Save" class="btn btn-primary" />
+        <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+    </div>
+</form>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+        // Education Details Handling
+        let educationIndex = @Model.EducationDetails.Count;
+        $('#addEducation').click(function () {
+            let newEducation = `
+                <div class="education-item" data-index="${educationIndex}">
+                    <div class="form-group">
+                        <label>School Name</label>
+                        <input name="EducationDetails[${educationIndex}].SchoolName" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label>Degree</label>
+                        <input name="EducationDetails[${educationIndex}].Degree" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label>Start Date</label>
+                        <input name="EducationDetails[${educationIndex}].StartDate" type="date" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label>End Date</label>
+                        <input name="EducationDetails[${educationIndex}].EndDate" type="date" class="form-control" />
+                    </div>
+                    <button type="button" class="btn btn-danger remove-education">Remove</button>
+                </div>`;
+            $('#educationDetailsContainer').append(newEducation);
+            educationIndex++;
+        });
+
+        // Remove education item
+        $(document).on('click', '.remove-education', function () {
+            $(this).closest('.education-item').remove();
+        });
+
+        // Experience Details Handling
+        let experienceIndex = @Model.ExperienceDetails.Count;
+        $('#addExperience').click(function () {
+            let newExperience = `
+                <div class="experience-item" data-index="${experienceIndex}">
+                    <div class="form-group">
+                        <label>Company Name</label>
+                        <input name="ExperienceDetails[${experienceIndex}].CompanyName" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label>Position</label>
+                        <input name="ExperienceDetails[${experienceIndex}].Position" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label>Start Date</label>
+                        <input name="ExperienceDetails[${experienceIndex}].StartDate" type="date" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label>End Date</label>
+                        <input name="ExperienceDetails[${experienceIndex}].EndDate" type="date" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label>Responsibilities</label>
+                        <textarea name="ExperienceDetails[${experienceIndex}].Responsibilities" class="form-control"></textarea>
+                    </div>
+                    <button type="button" class="btn btn-danger remove-experience">Remove</button>
+                </div>`;
+            $('#experienceDetailsContainer').append(newExperience);
+            experienceIndex++;
+        });
+
+        // Remove experience item
+        $(document).on('click', '.remove-experience', function () {
+            $(this).closest('.experience-item').remove();
+        });
+    </script>
+}

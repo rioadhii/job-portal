@@ -1,0 +1,54 @@
+@model IEnumerable<JobPortal.Public.Models.ViewModels.ApplicantViewModel>
+
+@{
+    ViewData["Title"] = "Applicant List";
+}
+
+<h2>Applicant List</h2>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Create New Applicant</a>
+</p>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LastName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.JobPositionName)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var applicant in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => applicant.FirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => applicant.LastName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => applicant.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => applicant.JobPositionName)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@applicant.ApplicantId" class="btn btn-warning">Edit</a> |
+                    <a asp-action="Delete" asp-route-id="@applicant.ApplicantId" class="btn btn-warning">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
